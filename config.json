@@ -94,7 +94,7 @@
       "istasyon": "GEPA 05 GÖLKENT SAKARYA AGDAŞ CITY GAS",
       "parametre": "Gaz Sıcaklık",
       "kosul": "altinda",
-      "deger": 60,
+      "deger": 20,
       "aktif": true
     },
      {
@@ -102,7 +102,7 @@
       "istasyon": "GEPA 06 LİMANDERE SAKARYA AGDAS CITY GAS",
       "parametre": "Gaz Sıcaklık",
       "kosul": "altinda",
-      "deger": 60,
+      "deger": -15,
       "aktif": true
     },
      {
@@ -138,7 +138,7 @@
       "parametre": "1.Dorse Basınç",
       "karsilastirma_saat_sayisi": 3,
       "carpan_esigi": 2.5,
-      "minimum_mutlak_fark": 1,
+      "minimum_mutlak_fark": 10,
       "aktif": true
     },
     {
@@ -147,7 +147,7 @@
       "parametre": "2.Dorse Basınç",
       "karsilastirma_saat_sayisi": 3,
       "carpan_esigi": 2.5,
-      "minimum_mutlak_fark": 1,
+      "minimum_mutlak_fark": 10,
       "aktif": true
     }
   ]
