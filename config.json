@@ -18,15 +18,31 @@
   "esik_kurallari": [
     {
       "aciklama": "1. Hat Basıncı çok düşük",
-      "istasyon": "",
+      "istasyon": "GEPA 01 KARAÇAM CİTY GAZ",
       "parametre": "1.Hat Basınç",
       "kosul": "altinda",
       "deger": 4.75,
       "aktif": true
     },
     {
+      "aciklama": "1. Hat Basıncı çok düşük",
+      "istasyon": "GEPA 03 BİLECİK İNHİSAR AKSA CITY GAS",
+      "parametre": "1.Hat Basınç",
+      "kosul": "altinda",
+      "deger": 4.75,
+      "aktif": true
+    },    
+    {
+      "aciklama": "1. Hat Basıncı çok düşük",
+      "istasyon": "GEPA 04 BİLECİK YENİPAZAR AKSA CITY GAS",
+      "parametre": "1.Hat Basınç",
+      "kosul": "altinda",
+      "deger": 4.75,
+      "aktif": true
+    }, 
+    {
       "aciklama": "2. Hat Basıncı çok düşük",
-      "istasyon": "",
+      "istasyon": "GEPA 02 TARAKLI CİTY GAZ",
       "parametre": "2.Hat Basınç",
       "kosul": "altinda",
       "deger": 4.75,
@@ -34,7 +50,31 @@
     },
     {
       "aciklama": "1. Hat Gaz Sıcaklığı çok düşük",
-      "istasyon": "",
+      "istasyon": "GEPA 01 KARAÇAM CİTY GAZ",
+      "parametre": "1.Hat Gaz Sıcaklık",
+      "kosul": "altinda",
+      "deger": -15,
+      "aktif": true
+    }, 
+    {
+      "aciklama": "1. Hat Gaz Sıcaklığı çok düşük",
+      "istasyon": "GEPA 03 BİLECİK İNHİSAR AKSA CITY GAS",
+      "parametre": "1.Hat Gaz Sıcaklık",
+      "kosul": "altinda",
+      "deger": -15,
+      "aktif": true
+    }, 
+    {
+      "aciklama": "1. Dorse Basinci çok düşük",
+      "istasyon": "GEPA 04 BİLECİK YENİPAZAR AKSA CITY GAS",
+      "parametre": "1.Dorse Basınç",
+      "kosul": "altinda",
+      "deger": 10,
+      "aktif": true
+    }, 
+    {
+      "aciklama": "1. Hat Gaz Sıcaklığı çok düşük",
+      "istasyon": "GEPA 04 BİLECİK YENİPAZAR AKSA CITY GAS",
       "parametre": "1.Hat Gaz Sıcaklık",
       "kosul": "altinda",
       "deger": -15,
@@ -42,7 +82,7 @@
     },
     {
       "aciklama": "2. Hat Gaz Sıcaklığı çok düşük",
-      "istasyon": "",
+      "istasyon": "GEPA 02 TARAKLI CİTY GAZ",
       "parametre": "2.Hat Gaz Sıcaklık",
       "kosul": "altinda",
       "deger": -15,
@@ -57,7 +97,7 @@
       "parametre": "1.Dorse Basınç",
       "karsilastirma_saat_sayisi": 3,
       "carpan_esigi": 2.5,
-      "minimum_mutlak_fark": 15,
+      "minimum_mutlak_fark": 1,
       "aktif": true
     },
     {
@@ -66,7 +106,7 @@
       "parametre": "2.Dorse Basınç",
       "karsilastirma_saat_sayisi": 3,
       "carpan_esigi": 2.5,
-      "minimum_mutlak_fark": 15,
+      "minimum_mutlak_fark": 1,
       "aktif": true
     }
   ]
