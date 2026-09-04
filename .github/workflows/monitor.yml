@@ -1,12 +1,9 @@
 name: Panel Izleyici
 
 on:
-  schedule:
-    # Her 5 dakikada bir calisir. GitHub bu zamanlamayi birebir garanti etmez,
-    # yogunluga gore birkaç dakika gecikebilir - normal.
-    - cron: "*/5 * * * *"
-  # Bu sayede "Actions" sekmesinden elle de "Run workflow" ile test edebilirsin.
-  workflow_dispatch: {}
+  repository_dispatch:
+    types: [5dk_kontrol] # cron-job.org'dan gönderdiğimiz event_type ismi
+  workflow_dispatch: {}  # Elle tetikleme butonunun kalması için
 
 jobs:
   kontrol:
