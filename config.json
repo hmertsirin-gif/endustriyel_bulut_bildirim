@@ -4,7 +4,8 @@
     "base_url": "https://panel.endustriyelbulut.com",
     "company_id": "",
     "email": "",
-    "password": ""
+    "password": "",
+    "session_cookie": ""
   },
   "telegram": {
     "bot_token": "",
