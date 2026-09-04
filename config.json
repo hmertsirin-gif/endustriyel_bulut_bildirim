@@ -78,7 +78,7 @@
       "istasyon": "GEPA 01 KARAÇAM CİTY GAZ",
       "parametre": "Kazan Sıcaklık",
       "kosul": "altinda",
-      "deger": 600,
+      "deger": 40,
       "aktif": true
     },
      {
@@ -86,7 +86,7 @@
       "istasyon": "GEPA 02 TARAKLI CİTY GAZ",
       "parametre": "Kazan Sıcaklık",
       "kosul": "altinda",
-      "deger": 100,
+      "deger": 40,
       "aktif": true
     },
      {
@@ -110,7 +110,7 @@
       "istasyon": "GEPA 03 BİLECİK İNHİSAR AKSA CITY GAS",
       "parametre": "Kazan Sıcaklık",
       "kosul": "altinda",
-      "deger": 100,
+      "deger": 40,
       "aktif": true
     },
      {
@@ -118,7 +118,7 @@
       "istasyon": "GEPA 04 BİLECİK YENİPAZAR AKSA CITY GAS",
       "parametre": "Kazan Sıcaklık",
       "kosul": "altinda",
-      "deger": 100,
+      "deger": 40,
       "aktif": true
     },
     {
