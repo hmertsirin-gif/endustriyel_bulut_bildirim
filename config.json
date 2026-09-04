@@ -134,21 +134,25 @@
   "rejim_izleme": [
     {
       "aciklama": "1. Dorse Basınç rejim değişimi",
-      "istasyon": "",
-      "parametre": "1.Dorse Basınç",
-      "karsilastirma_saat_sayisi": 3,
-      "carpan_esigi": 2.5,
-      "minimum_mutlak_fark": 10,
-      "aktif": true
+  "istasyon": "",
+  "parametre": "1.Dorse Basınç",
+  "karsilastirma_saat_sayisi": 3,
+  "carpan_esigi": 2.5,
+  "minimum_mutlak_fark": 10,
+  "birim": "bar/saat",
+  "mesaj_sablonu": "Son {saat} saattir ortalama {gecmis_rejim} {birim} rejim izlenirken, şu anki rejim {guncel_rejim} {birim} seviyesine ulaştı.",
+  "aktif": true
     },
     {
       "aciklama": "2. Dorse Basınç rejim değişimi",
-      "istasyon": "",
-      "parametre": "2.Dorse Basınç",
-      "karsilastirma_saat_sayisi": 3,
-      "carpan_esigi": 2.5,
-      "minimum_mutlak_fark": 10,
-      "aktif": true
+  "istasyon": "",
+  "parametre": "2.Dorse Basınç",
+  "karsilastirma_saat_sayisi": 3,
+  "carpan_esigi": 2.5,
+  "minimum_mutlak_fark": 10,
+  "birim": "bar/saat",
+  "mesaj_sablonu": "Son {saat} saattir ortalama {gecmis_rejim} {birim} rejim izlenirken, şu anki rejim {guncel_rejim} {birim} seviyesine ulaştı.",
+  "aktif": true
     }
   ]
 }
