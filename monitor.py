@@ -187,6 +187,42 @@ def new_session():
     return s
 
 
+def apply_cookie_login(session, config, logger):
+    """
+    config icinde site.session_cookie (veya SESSION_COOKIE ortam degiskeni)
+    doluysa, otomatik login POST akisini tamamen atlayip bu cookie'yi
+    dogrudan kullanir.
+
+    Bu, bazi bulut/CI sunucularinin (GitHub Actions gibi) IP'lerinin site
+    tarafindan bot/yabanci trafik olarak algilanip farkli/eksik bir login
+    sayfasi gormesi durumunda kullanilir: kullanici kendi normal tarayicisindan
+    BIR KEZ giris yapar, o oturumun cookie degerini alir, config/secrets
+    icine koyar. Site her istekte oturum suresini kendiliginden uzattigi
+    icin (session sliding expiry), duzenli araliklarla (ornegin 5 dk'da bir)
+    istek atildigi surece bu oturum pratikte hic dusmez.
+
+    Basariliysa True, session_cookie tanimli degilse False doner.
+    """
+    cookie_str = config.get("site", {}).get("session_cookie", "").strip()
+    if not cookie_str:
+        return False
+
+    count = 0
+    for part in cookie_str.split(";"):
+        part = part.strip()
+        if "=" in part:
+            k, v = part.split("=", 1)
+            session.cookies.set(k.strip(), v.strip())
+            count += 1
+
+    if count == 0:
+        logger.warning("session_cookie tanimli ama gecerli bir cookie parse edilemedi.")
+        return False
+
+    logger.info(f"Elle alinan session cookie ile giris yapildi ({count} cookie), login POST akisi atlandi.")
+    return True
+
+
 def login(session, config, logger):
     base = config["site"]["base_url"]
     login_page_url = f"{base}/auth/login"
@@ -250,7 +286,9 @@ def fetch_parameters(session, config, logger):
     resp = session.get(url, params=params, timeout=30, headers={"X-Requested-With": "XMLHttpRequest"})
 
     if resp.status_code != 200 or "text/html" in resp.headers.get("content-type", ""):
-        logger.warning("Parametre isteği beklenmedik cevap döndürdü, session düşmüş olabilir.")
+        logger.warning("Parametre isteği beklenmedik cevap döndürdü, session düşmüş/geçersiz olabilir.")
+        logger.warning(f"TEŞHİS -> HTTP durum kodu: {resp.status_code}, Content-Type: {resp.headers.get('content-type')}")
+        logger.warning(f"TEŞHİS -> Cevabın ilk 300 karakteri: {resp.text[:300]}")
         return None
 
     try:
@@ -498,6 +536,7 @@ def apply_env_overrides(config):
         "SITE_COMPANY_ID": ("site", "company_id"),
         "SITE_EMAIL": ("site", "email"),
         "SITE_PASSWORD": ("site", "password"),
+        "SITE_SESSION_COOKIE": ("site", "session_cookie"),
         "TELEGRAM_BOT_TOKEN": ("telegram", "bot_token"),
         "TELEGRAM_CHAT_ID": ("telegram", "chat_id"),
     }
@@ -547,16 +586,36 @@ def main():
     conn = init_db(config.get("database_path", "history.db"))
 
     session = new_session()
-    if not login(session, config, logger):
-        logger.error("İlk girişte başarısız olundu, çıkılıyor.")
-        sys.exit(1)
+    using_cookie_mode = apply_cookie_login(session, config, logger)
+    if not using_cookie_mode:
+        if not login(session, config, logger):
+            logger.error("İlk girişte başarısız olundu, çıkılıyor.")
+            sys.exit(1)
+
+    def try_reauth():
+        """Cookie modundaysa normal login zaten calismiyor demektir (site
+        bu ortamin IP'sini engelliyor) - tekrar denemenin anlami yok, sadece
+        acik bir uyari verip cikariz. Normal moddaysa tekrar login dener."""
+        if using_cookie_mode:
+            logger.error(
+                "Oturum (session_cookie) gecersiz/suresi dolmus gorunuyor. "
+                "Tekrar login POST denemesi bu ortamda calismiyor (bilinen IP engeli). "
+                "Kendi tarayicindan tekrar giris yapip yeni cookie degerini "
+                "SITE_SESSION_COOKIE secret'ina guncellemen gerekiyor."
+            )
+            return False
+        new_session_obj = new_session()
+        if login(new_session_obj, config, logger):
+            return new_session_obj
+        return False
 
     if args.once:
         ok = run_single_check(session, config, conn, logger)
         if not ok:
             logger.warning("Veri alınamadı, yeniden giriş deneniyor.")
-            session = new_session()
-            if login(session, config, logger):
+            result = try_reauth()
+            if result:
+                session = result
                 ok = run_single_check(session, config, conn, logger)
         if not ok:
             logger.error("Tek seferlik kontrol başarısız oldu.")
@@ -575,8 +634,9 @@ def main():
             if not ok:
                 consecutive_failures += 1
                 logger.warning(f"Veri alınamadı ({consecutive_failures}. deneme). Yeniden giriş deneniyor.")
-                session = new_session()
-                if login(session, config, logger):
+                result = try_reauth()
+                if result:
+                    session = result
                     consecutive_failures = 0
             else:
                 consecutive_failures = 0
