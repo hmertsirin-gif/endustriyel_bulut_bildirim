@@ -75,7 +75,7 @@
     },
     {
       "aciklama": "Kazan Sıcaklığı çok düşük",
-      "istasyon": "",
+      "istasyon": "null",
       "parametre": "Kazan Sıcaklık",
       "kosul": "altinda",
       "deger": 0,
