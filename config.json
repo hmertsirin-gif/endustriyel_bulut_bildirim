@@ -1,0 +1,72 @@
+{
+  "_bilgi": "Bu surum GitHub Actions icindir. site.* ve telegram.* alanlari BILEREK bos birakildi - bu bilgiler GitHub repo Settings > Secrets uzerinden environment variable olarak enjekte ediliyor, koda hic yazilmiyor. Sadece esik_kurallari ve rejim_izleme kisimlarini duzenleyebilirsin.",
+  "site": {
+    "base_url": "https://panel.endustriyelbulut.com",
+    "company_id": "",
+    "email": "",
+    "password": ""
+  },
+  "telegram": {
+    "bot_token": "",
+    "chat_id": ""
+  },
+  "polling_interval_seconds": 60,
+  "database_path": "history.db",
+  "log_path": "monitor.log",
+  "_kural_aciklamasi": "Her kural bir istasyon+parametre kombinasyonuna uygulanır. 'istasyon' alanını bos ('') birakirsan kural TUM istasyonlara uygulanir. 'parametre' alani JSON'daki 'isim' alaniyla BIREBIR ayni olmali (buyuk/kucuk harf onemli degil).",
+  "esik_kurallari": [
+    {
+      "aciklama": "1. Hat Basıncı çok düşük",
+      "istasyon": "",
+      "parametre": "1.Hat Basınç",
+      "kosul": "altinda",
+      "deger": 4.75,
+      "aktif": true
+    },
+    {
+      "aciklama": "2. Hat Basıncı çok düşük",
+      "istasyon": "",
+      "parametre": "2.Hat Basınç",
+      "kosul": "altinda",
+      "deger": 4.75,
+      "aktif": true
+    },
+    {
+      "aciklama": "1. Hat Gaz Sıcaklığı çok düşük",
+      "istasyon": "",
+      "parametre": "1.Hat Gaz Sıcaklık",
+      "kosul": "altinda",
+      "deger": -15,
+      "aktif": true
+    },
+    {
+      "aciklama": "2. Hat Gaz Sıcaklığı çok düşük",
+      "istasyon": "",
+      "parametre": "2.Hat Gaz Sıcaklık",
+      "kosul": "altinda",
+      "deger": -15,
+      "aktif": true
+    }
+  ],
+  "_rejim_aciklamasi": "Dorse basinci gibi parametrelerde saatlik degisim miktarini izler. Son N saatin ortalama saatlik degisimiyle, en son saatteki degisimi karsilastirir. Fark carpani asarsa (veya mutlak bar farki asarsa) alarm verir.",
+  "rejim_izleme": [
+    {
+      "aciklama": "1. Dorse Basınç rejim değişimi",
+      "istasyon": "",
+      "parametre": "1.Dorse Basınç",
+      "karsilastirma_saat_sayisi": 3,
+      "carpan_esigi": 2.5,
+      "minimum_mutlak_fark": 15,
+      "aktif": true
+    },
+    {
+      "aciklama": "2. Dorse Basınç rejim değişimi",
+      "istasyon": "",
+      "parametre": "2.Dorse Basınç",
+      "karsilastirma_saat_sayisi": 3,
+      "carpan_esigi": 2.5,
+      "minimum_mutlak_fark": 15,
+      "aktif": true
+    }
+  ]
+}
