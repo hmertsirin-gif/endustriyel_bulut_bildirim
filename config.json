@@ -9,7 +9,7 @@
   },
   "telegram": {
     "bot_token": "",
-    "chat_id": ""
+    "chat_id": "-1004399882844"
   },
   "polling_interval_seconds": 60,
   "database_path": "history.db",
