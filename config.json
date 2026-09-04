@@ -53,7 +53,7 @@
       "istasyon": "GEPA 02 TARAKLI CİTY GAZ",
       "parametre": "2.Hat Basınç",
       "kosul": "altinda",
-      "deger": 7.75,
+      "deger": 4.75,
       "aktif": true
     },
     {
@@ -78,6 +78,14 @@
       "parametre": "1.Hat Gaz Sıcaklık",
       "kosul": "altinda",
       "deger": -15,
+      "aktif": true
+    },
+    {
+      "aciklama": "Kazan Sıcaklığı çok düşük",
+      "istasyon": "",
+      "parametre": "Kazan Sıcaklık",
+      "kosul": "altinda",
+      "deger": 30,
       "aktif": true
     },
     {
