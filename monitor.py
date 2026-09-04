@@ -177,7 +177,13 @@ def mark_regime_alerted(conn, rule_key, saat_damgasi):
 
 def new_session():
     s = requests.Session()
-    s.headers.update({"User-Agent": USER_AGENT})
+    s.headers.update(
+        {
+            "User-Agent": USER_AGENT,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7",
+        }
+    )
     return s
 
 
@@ -186,11 +192,15 @@ def login(session, config, logger):
     login_page_url = f"{base}/auth/login"
 
     resp = session.get(login_page_url, timeout=20)
-    resp.raise_for_status()
 
     m = re.search(r'name="csrf-token"\s+content="([^"]+)"', resp.text)
     if not m:
         logger.error("Login sayfasından csrf-token bulunamadı.")
+        logger.error(f"TEŞHİS -> HTTP durum kodu: {resp.status_code}")
+        logger.error(f"TEŞHİS -> Gerçek URL (yönlendirme olduysa değişir): {resp.url}")
+        logger.error(f"TEŞHİS -> Content-Type: {resp.headers.get('content-type')}")
+        logger.error(f"TEŞHİS -> Cevap uzunluğu: {len(resp.text)} karakter")
+        logger.error(f"TEŞHİS -> Cevabın ilk 500 karakteri:\n{resp.text[:500]}")
         return False
     token = m.group(1)
 
