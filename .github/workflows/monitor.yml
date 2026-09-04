@@ -38,6 +38,6 @@ jobs:
           SITE_COMPANY_ID: ${{ secrets.SITE_COMPANY_ID }}
           SITE_EMAIL: ${{ secrets.SITE_EMAIL }}
           SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
+          SITE_SESSION_COOKIE: ${{ secrets.SITE_SESSION_COOKIE }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python monitor.py --once
+          TELEGRAM_CHAT_ID: ${{ 
