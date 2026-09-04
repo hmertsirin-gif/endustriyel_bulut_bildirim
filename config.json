@@ -90,6 +90,22 @@
       "aktif": true
     },
      {
+      "aciklama": "Gaz Sıcaklığı çok düşük",
+      "istasyon": "GEPA 05 GÖLKENT SAKARYA AGDAŞ CITY GAS",
+      "parametre": "Gaz Sıcaklık",
+      "kosul": "altinda",
+      "deger": 60,
+      "aktif": true
+    },
+     {
+      "aciklama": "Gaz Sıcaklığı çok düşük",
+      "istasyon": "GEPA 06 LİMANDERE SAKARYA AGDAS CITY GAS",
+      "parametre": "Gaz Sıcaklık",
+      "kosul": "altinda",
+      "deger": 60,
+      "aktif": true
+    },
+     {
       "aciklama": "Kazan Sıcaklığı çok düşük",
       "istasyon": "GEPA 03 BİLECİK İNHİSAR AKSA CITY GAS",
       "parametre": "Kazan Sıcaklık",
