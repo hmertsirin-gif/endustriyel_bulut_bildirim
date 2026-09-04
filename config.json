@@ -32,14 +32,7 @@
       "deger": 4.75,
       "aktif": true
     },    
-    {
-      "aciklama": "Kazan Sicakligi Cok Düsük",
-      "istasyon": "GEPA 01 KARAÇAM CİTY GAZ",
-      "parametre": "Kazan Sıcaklık",
-      "kosul": "altinda",
-      "deger": 40,
-      "aktif": true
-    },    
+   
     {
       "aciklama": "1. Hat Basıncı çok düşük",
       "istasyon": "GEPA 04 BİLECİK YENİPAZAR AKSA CITY GAS",
@@ -85,7 +78,7 @@
       "istasyon": "",
       "parametre": "Kazan Sıcaklık",
       "kosul": "altinda",
-      "deger": 30,
+      "deger": 0,
       "aktif": true
     },
     {
