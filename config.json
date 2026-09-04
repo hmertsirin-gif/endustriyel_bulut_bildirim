@@ -18,7 +18,7 @@
   "esik_kurallari": [
     {
       "aciklama": "1. Hat Basıncı çok düşük",
-      "istasyon": "GEPA 01 KARAÇAM CİTY GAZ",
+      "istasyon": "GEPA 01 KARACAM CITY GAZ",
       "parametre": "1.Hat Basınç",
       "kosul": "altinda",
       "deger": 4.75,
@@ -26,7 +26,7 @@
     },
     {
       "aciklama": "1. Hat Basıncı çok düşük",
-      "istasyon": "GEPA 03 BİLECİK İNHİSAR AKSA CITY GAS",
+      "istasyon": "GEPA 03 BILECIK INHISAR AKSA CITY GAS",
       "parametre": "1.Hat Basınç",
       "kosul": "altinda",
       "deger": 4.75,
@@ -34,7 +34,7 @@
     },    
     {
       "aciklama": "1. Hat Basıncı çok düşük",
-      "istasyon": "GEPA 04 BİLECİK YENİPAZAR AKSA CITY GAS",
+      "istasyon": "GEPA 04 BILECIK YENIPAZAR AKSA CITY GAS",
       "parametre": "1.Hat Basınç",
       "kosul": "altinda",
       "deger": 4.75,
@@ -42,7 +42,7 @@
     }, 
     {
       "aciklama": "2. Hat Basıncı çok düşük",
-      "istasyon": "GEPA 02 TARAKLI CİTY GAZ",
+      "istasyon": "GEPA 02 TARAKLI CITY GAZ",
       "parametre": "2.Hat Basınç",
       "kosul": "altinda",
       "deger": 4.75,
@@ -50,7 +50,7 @@
     },
     {
       "aciklama": "1. Hat Gaz Sıcaklığı çok düşük",
-      "istasyon": "GEPA 01 KARAÇAM CİTY GAZ",
+      "istasyon": "GEPA 01 KARAÇAM CITY GAZ",
       "parametre": "1.Hat Gaz Sıcaklık",
       "kosul": "altinda",
       "deger": -15,
@@ -58,7 +58,7 @@
     }, 
     {
       "aciklama": "1. Hat Gaz Sıcaklığı çok düşük",
-      "istasyon": "GEPA 03 BİLECİK İNHİSAR AKSA CITY GAS",
+      "istasyon": "GEPA 03 BILECIK INHISAR AKSA CITY GAS",
       "parametre": "1.Hat Gaz Sıcaklık",
       "kosul": "altinda",
       "deger": -15,
@@ -66,7 +66,7 @@
     }, 
     {
       "aciklama": "1. Dorse Basinci çok düşük",
-      "istasyon": "GEPA 04 BİLECİK YENİPAZAR AKSA CITY GAS",
+      "istasyon": "GEPA 04 BILECIK YENIPAZAR AKSA CITY GAS",
       "parametre": "1.Dorse Basınç",
       "kosul": "altinda",
       "deger": 10,
@@ -74,7 +74,7 @@
     }, 
     {
       "aciklama": "1. Hat Gaz Sıcaklığı çok düşük",
-      "istasyon": "GEPA 04 BİLECİK YENİPAZAR AKSA CITY GAS",
+      "istasyon": "GEPA 04 BILECIK YENIPAZAR AKSA CITY GAS",
       "parametre": "1.Hat Gaz Sıcaklık",
       "kosul": "altinda",
       "deger": -15,
@@ -82,7 +82,7 @@
     },
     {
       "aciklama": "2. Hat Gaz Sıcaklığı çok düşük",
-      "istasyon": "GEPA 02 TARAKLI CİTY GAZ",
+      "istasyon": "GEPA 02 TARAKLI CITY GAZ",
       "parametre": "2.Hat Gaz Sıcaklık",
       "kosul": "altinda",
       "deger": -15,
