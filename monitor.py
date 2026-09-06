@@ -126,6 +126,14 @@ def init_db(db_path):
         )
         """
     )
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS info_notice_log (
+            rule_key TEXT PRIMARY KEY,
+            last_sent_at TEXT
+        )
+        """
+    )
     conn.commit()
     return conn
 
@@ -624,6 +632,175 @@ def check_heartbeat(conn, config, logger):
 
 
 # --------------------------------------------------------------------------
+# Dorse takibi: aktif peronu belirleme + bosalma tahmini
+# --------------------------------------------------------------------------
+
+def get_last_notice(conn, rule_key):
+    cur = conn.execute("SELECT last_sent_at FROM info_notice_log WHERE rule_key = ?", (rule_key,))
+    row = cur.fetchone()
+    return row[0] if row else None
+
+
+def set_last_notice(conn, rule_key, iso_time):
+    conn.execute(
+        """
+        INSERT INTO info_notice_log (rule_key, last_sent_at) VALUES (?, ?)
+        ON CONFLICT(rule_key) DO UPDATE SET last_sent_at = excluded.last_sent_at
+        """,
+        (rule_key, iso_time),
+    )
+    conn.commit()
+
+
+def check_dorse_takip(conn, config, logger):
+    """
+    Bir istasyonun birden fazla dorse peronu (ornegin '1.Dorse Basınç' ve
+    '2.Dorse Basınç') arasindan HANGISININ su an aktif (kullanimda) oldugunu,
+    gecmiste EN SON hangisinin 'dolu esigi'ne (varsayilan 180 Bar) ulastigina
+    bakarak belirler - vana ic kacagi yuzunden iki peronun da benzer dusuk
+    degerler gostermesi durumunda bile dogru peronu ayirt edebilmek icin.
+
+    Aktif peronun son dolumdan bu yana ortalama dusus hizini (Bar/saat)
+    hesaplayip, 'bosaltma esigi'ne (varsayilan 20 Bar) ne zaman inecegini
+    tahmin eder ve periyodik olarak (varsayilan 60 dakikada bir) bilgi
+    mesaji gonderir. Aktif peron degistiginde (digeri yeniden doldugunda)
+    otomatik olarak yeni aktif peronu takip etmeye baslar.
+    """
+    rules = config.get("dorse_takip", [])
+    if not rules:
+        return
+
+    now = datetime.now()
+
+    for rule in rules:
+        if not rule.get("aktif", True):
+            continue
+
+        istasyon = rule["istasyon"]
+        peronlar = rule["peronlar"]
+        dolu_esigi = rule.get("dolu_esigi", 180)
+        bosaltma_esigi = rule.get("bosaltma_esigi", 20)
+        interval_dk = rule.get("bildirim_araligi_dakika", 60)
+        min_veri_saat = rule.get("min_veri_saat", 1)
+
+        rule_key = f"dorse::{rule['aciklama']}::{istasyon}"
+
+        last_str = get_last_notice(conn, rule_key)
+        if last_str:
+            try:
+                last_dt = datetime.fromisoformat(last_str)
+                if (now - last_dt) < timedelta(minutes=interval_dk):
+                    continue
+            except ValueError:
+                pass
+
+        histories = {}
+        fill_times = {}
+        current_values = {}
+
+        for peron in peronlar:
+            cur = conn.execute(
+                """
+                SELECT fetched_at, deger FROM readings
+                WHERE istasyon = ? AND parametre = ? AND deger IS NOT NULL
+                ORDER BY fetched_at ASC
+                """,
+                (istasyon, peron),
+            )
+            rows = cur.fetchall()
+            histories[peron] = rows
+            if rows:
+                current_values[peron] = rows[-1][1]
+
+            last_fill = None
+            prev_deger = None
+            for fetched_at, deger in rows:
+                # 'dolum ani' = degerin esigin ALTINDAN USTUNE gectigi an (yukseliş kenari).
+                # Sadece 'hala yuksek' olmasi degil, YENİ doldurulmus olmasi onemli.
+                if deger >= dolu_esigi and (prev_deger is None or prev_deger < dolu_esigi):
+                    last_fill = fetched_at
+                prev_deger = deger
+            fill_times[peron] = last_fill
+
+        candidates = [(p, t) for p, t in fill_times.items() if t is not None]
+        belirsiz = False
+        if candidates:
+            active_peron = max(candidates, key=lambda x: x[1])[0]
+        elif current_values:
+            active_peron = max(current_values, key=current_values.get)
+            belirsiz = True
+        else:
+            logger.info(f"TEŞHİS -> Dorse takip '{rule['aciklama']}': henüz hiç veri yok.")
+            continue
+
+        rows = histories[active_peron]
+        if belirsiz:
+            window_rows = rows
+        else:
+            fill_time = fill_times[active_peron]
+            window_rows = [r for r in rows if r[0] >= fill_time]
+
+        belirsizlik_notu = ""
+        if belirsiz:
+            belirsizlik_notu = (
+                f"\n⚠️ Henüz {dolu_esigi} Bar civarında bir dolum gözlemlenmedi, "
+                f"aktif peron tahmini şu an en yüksek basınçlı olana göre yapılıyor."
+            )
+
+        if len(window_rows) < 2:
+            logger.info(f"TEŞHİS -> Dorse takip '{rule['aciklama']}': yeterli veri yok, bekleniyor.")
+            set_last_notice(conn, rule_key, now.isoformat(timespec="seconds"))
+            continue
+
+        ilk_zaman = datetime.fromisoformat(window_rows[0][0])
+        ilk_deger = window_rows[0][1]
+        son_zaman = datetime.fromisoformat(window_rows[-1][0])
+        son_deger = window_rows[-1][1]
+
+        gecen_saat = (son_zaman - ilk_zaman).total_seconds() / 3600
+        if gecen_saat < min_veri_saat:
+            logger.info(
+                f"TEŞHİS -> Dorse takip '{rule['aciklama']}': henüz {gecen_saat:.2f} saatlik veri var, "
+                f"en az {min_veri_saat} saat bekleniyor."
+            )
+            set_last_notice(conn, rule_key, now.isoformat(timespec="seconds"))
+            continue
+
+        hiz = (ilk_deger - son_deger) / gecen_saat if gecen_saat > 0 else 0
+
+        if hiz <= 0:
+            msg = (
+                f"🛢️ Dorse Takibi: {istasyon}\n"
+                f"Aktif peron (tahmini): {active_peron} — şu an {son_deger:.2f} Bar\n"
+                f"Son {gecen_saat:.1f} saatte anlamlı bir düşüş gözlenmedi, "
+                f"bitiş süresi şu an hesaplanamıyor."
+                f"{belirsizlik_notu}"
+            )
+        elif son_deger <= bosaltma_esigi:
+            msg = (
+                f"🛢️ Dorse Takibi: {istasyon}\n"
+                f"Aktif peron: {active_peron} — şu an {son_deger:.2f} Bar\n"
+                f"⚠️ Zaten {bosaltma_esigi} Bar eşiğinde/altında — değişim zamanı gelmiş olabilir."
+                f"{belirsizlik_notu}"
+            )
+        else:
+            kalan_saat = (son_deger - bosaltma_esigi) / hiz
+            tahmini_zaman = now + timedelta(hours=kalan_saat)
+            msg = (
+                f"🛢️ Dorse Takibi: {istasyon}\n"
+                f"Aktif peron: {active_peron} — şu an {son_deger:.2f} Bar\n"
+                f"Ortalama tüketim hızı: {hiz:.2f} Bar/saat\n"
+                f"Tahmini {bosaltma_esigi} Bar'a düşme süresi: ~{kalan_saat:.1f} saat "
+                f"(tahmini zaman: {tahmini_zaman.strftime('%d-%m-%Y %H:%M')})"
+                f"{belirsizlik_notu}"
+            )
+
+        send_telegram(config, msg, logger)
+        set_last_notice(conn, rule_key, now.isoformat(timespec="seconds"))
+        logger.info(f"Dorse takip bildirimi gönderildi: {rule['aciklama']} -> aktif peron: {active_peron}")
+
+
+# --------------------------------------------------------------------------
 # Ana döngü
 # --------------------------------------------------------------------------
 
@@ -666,6 +843,7 @@ def run_single_check(session, config, conn, logger):
 
     check_thresholds(conn, config, readings, logger)
     check_regime(conn, config, logger)
+    check_dorse_takip(conn, config, logger)
     check_heartbeat(conn, config, logger)
 
     logger.info(f"{len(readings)} parametre okundu ve kontrol edildi.")
