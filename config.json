@@ -166,7 +166,7 @@
       ],
       "dolu_esigi": 49,50,
       "bosaltma_esigi": 20,
-      "bildirim_araligi_dakika": 1,
+      "bildirim_araligi_dakika": 60,
       "min_veri_saat": 1,
       "aktif": true
     }
