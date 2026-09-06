@@ -2,9 +2,9 @@
   "_bilgi": "Bu surum GitHub Actions icindir. site.* ve telegram.* alanlari BILEREK bos birakildi - bu bilgiler GitHub repo Settings > Secrets uzerinden environment variable olarak enjekte ediliyor, koda hic yazilmiyor. Sadece esik_kurallari ve rejim_izleme kisimlarini duzenleyebilirsin.",
   "site": {
     "base_url": "https://panel.endustriyelbulut.com",
-    "company_id": "",
-    "email": "",
-    "password": "",
+    "company_id": "sarpcng",
+    "email": "mertsirin@sarpcng.com.tr",
+    "password": "Ms123456",
     "session_cookie": ""
   },
   "telegram": {
