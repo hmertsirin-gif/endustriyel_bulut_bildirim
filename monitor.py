@@ -118,6 +118,14 @@ def init_db(db_path):
         )
         """
     )
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS heartbeat (
+            id INTEGER PRIMARY KEY CHECK (id = 1),
+            last_sent_at TEXT
+        )
+        """
+    )
     conn.commit()
     return conn
 
@@ -389,6 +397,13 @@ def check_thresholds(conn, config, readings, logger):
                 continue
             matches.extend(rows)
 
+        if not matches:
+            logger.warning(
+                f"TEŞHİS -> Kural '{rule['aciklama']}' hiçbir veriyle eşleşmedi "
+                f"(istasyon='{hedef_istasyon or 'TÜMÜ'}', parametre='{hedef_parametre}'). "
+                f"İsim yazımını kontrol et (Türkçe karakterler dahil)."
+            )
+
         for r in matches:
             if r["deger"] is None:
                 continue
@@ -400,7 +415,21 @@ def check_thresholds(conn, config, readings, logger):
             elif rule["kosul"] == "ustunde" and r["deger"] > rule["deger"]:
                 ihlal = True
 
+            logger.info(
+                f"TEŞHİS -> {r['istasyon']} | {r['parametre']} = {r['deger']} {r['birim']} "
+                f"| kural: {rule['kosul']} {rule['deger']} | ihlal: {ihlal}"
+            )
+
             was_active = get_alert_active(conn, rule_key)
+            logger.info(f"TEŞHİS -> alarm_durumu (daha once aktif miydi?): {was_active}")
+
+            if ihlal and was_active:
+                logger.info(
+                    "TEŞHİS -> İhlal var AMA bu alarm zaten aktif (daha önce bildirilmiş), "
+                    "spam yapmamak için TEKRAR mesaj GÖNDERİLMİYOR. "
+                    "(Eşiği değiştirdiysen ve yine de mesaj bekliyorsan, bu normal davranış "
+                    "değildir - bana haber ver, alarm durumunu sıfırlayalım.)"
+                )
 
             if ihlal and not was_active:
                 msg = (
@@ -522,6 +551,79 @@ def _hourly_last_values(points):
 
 
 # --------------------------------------------------------------------------
+# Heartbeat ("sistem calisiyor") mesaji
+# --------------------------------------------------------------------------
+
+def get_last_heartbeat(conn):
+    cur = conn.execute("SELECT last_sent_at FROM heartbeat WHERE id = 1")
+    row = cur.fetchone()
+    return row[0] if row else None
+
+
+def set_last_heartbeat(conn, iso_time):
+    conn.execute(
+        """
+        INSERT INTO heartbeat (id, last_sent_at) VALUES (1, ?)
+        ON CONFLICT(id) DO UPDATE SET last_sent_at = excluded.last_sent_at
+        """,
+        (iso_time,),
+    )
+    conn.commit()
+
+
+def check_heartbeat(conn, config, logger):
+    """
+    Alarm olsun olmasin, duzenli araliklarla (varsayilan 60 dakika) 'sistem
+    calisiyor' mesaji gonderir. Boylece kullanici sessizligin 'her sey
+    normal' mi yoksa 'sistem durdu' mu oldugunu ayirt edebilir.
+    """
+    hb_config = config.get("heartbeat", {})
+    if not hb_config.get("aktif", True):
+        return
+
+    interval_minutes = hb_config.get("interval_dakika", 60)
+    now = datetime.now()
+
+    last_str = get_last_heartbeat(conn)
+    last_dt = None
+    if last_str:
+        try:
+            last_dt = datetime.fromisoformat(last_str)
+        except ValueError:
+            last_dt = None
+
+    if last_dt and (now - last_dt) < timedelta(minutes=interval_minutes):
+        return  # henuz zamani gelmedi
+
+    cur = conn.execute("SELECT rule_key FROM alert_state WHERE active = 1")
+    active_rules = [row[0] for row in cur.fetchall()]
+
+    if active_rules:
+        satirlar = []
+        for rk in active_rules:
+            parts = rk.split("::")
+            if len(parts) == 3:
+                _, aciklama, istasyon = parts
+                satirlar.append(f"  • {istasyon} — {aciklama}")
+            else:
+                satirlar.append(f"  • {rk}")
+        detay = "\n".join(satirlar)
+        msg = (
+            f"✅ Sistem çalışıyor ({now.strftime('%d-%m-%Y %H:%M')})\n"
+            f"Şu an {len(active_rules)} aktif alarm var:\n{detay}"
+        )
+    else:
+        msg = (
+            f"✅ Sistem çalışıyor ({now.strftime('%d-%m-%Y %H:%M')})\n"
+            f"Her şey normal, aktif alarm yok."
+        )
+
+    send_telegram(config, msg, logger)
+    set_last_heartbeat(conn, now.isoformat(timespec="seconds"))
+    logger.info("Saatlik durum mesajı (heartbeat) gönderildi.")
+
+
+# --------------------------------------------------------------------------
 # Ana döngü
 # --------------------------------------------------------------------------
 
@@ -564,6 +666,7 @@ def run_single_check(session, config, conn, logger):
 
     check_thresholds(conn, config, readings, logger)
     check_regime(conn, config, logger)
+    check_heartbeat(conn, config, logger)
 
     logger.info(f"{len(readings)} parametre okundu ve kontrol edildi.")
     return True
