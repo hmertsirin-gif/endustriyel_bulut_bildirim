@@ -17,7 +17,7 @@
   "heartbeat": {
     "_aciklama": "Alarm olsun olmasin, her interval_dakika bir 'sistem calisiyor' mesaji gonderir. Boylece sessizligin 'her sey normal' mi yoksa 'sistem durmus' mu oldugunu ayirt edebilirsin.",
     "aktif": true,
-    "interval_dakika": 60
+    "interval_dakika": 1
   },
   "_kural_aciklamasi": "Her kural bir istasyon+parametre kombinasyonuna uygulanır. 'istasyon' alanını bos ('') birakirsan kural TUM istasyonlara uygulanir. 'parametre' alani JSON'daki 'isim' alaniyla BIREBIR ayni olmali (buyuk/kucuk harf onemli degil).",
   "esik_kurallari": [
