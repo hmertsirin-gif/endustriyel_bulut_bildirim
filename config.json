@@ -164,7 +164,79 @@
         "1.Dorse Basınç",
         "2.Dorse Basınç"
       ],
-      "dolu_esigi": 180,
+      "dolu_esigi": 200,
+      "bosaltma_esigi": 20,
+      "bildirim_araligi_dakika": 60,
+      "min_veri_saat": 1,
+      "aktif": true
+    },
+     {
+      "_aciklama_ozellik": "Bir istasyonun birden fazla dorse peronu arasindan hangisinin aktif (kullanimda) oldugunu, gecmiste EN SON hangisinin 'dolu_esigi' Bar'a ulastigina bakarak belirler. Boylece vana ic kacagi yuzunden iki peronun da benzer degerler gostermesi durumunda bile dogru peronu ayirt eder. Aktif peronun tuketim hizini hesaplayip 'bosaltma_esigi'ne ne zaman inecegini tahmin eder, periyodik olarak bildirir. Peron degistiginde otomatik olarak yenisini takip etmeye baslar.",
+      "aciklama": "Taraklı dorse takibi",
+      "istasyon": "GEPA 02 TARAKLI CİTY GAZ",
+      "peronlar": [
+        "1.Dorse Basınç",
+        "2.Dorse Basınç"
+      ],
+      "dolu_esigi": 200,
+      "bosaltma_esigi": 20,
+      "bildirim_araligi_dakika": 60,
+      "min_veri_saat": 1,
+      "aktif": true
+    },
+      {
+      "_aciklama_ozellik": "Bir istasyonun birden fazla dorse peronu arasindan hangisinin aktif (kullanimda) oldugunu, gecmiste EN SON hangisinin 'dolu_esigi' Bar'a ulastigina bakarak belirler. Boylece vana ic kacagi yuzunden iki peronun da benzer degerler gostermesi durumunda bile dogru peronu ayirt eder. Aktif peronun tuketim hizini hesaplayip 'bosaltma_esigi'ne ne zaman inecegini tahmin eder, periyodik olarak bildirir. Peron degistiginde otomatik olarak yenisini takip etmeye baslar.",
+      "aciklama": "İnhisar dorse takibi",
+      "istasyon": "GEPA 03 BİLECİK İNHİSAR AKSA CITY GAS",
+      "peronlar": [
+        "1.Dorse Basınç",
+        "2.Dorse Basınç"
+      ],
+      "dolu_esigi": 200,
+      "bosaltma_esigi": 20,
+      "bildirim_araligi_dakika": 60,
+      "min_veri_saat": 1,
+      "aktif": true
+    },
+     {
+      "_aciklama_ozellik": "Bir istasyonun birden fazla dorse peronu arasindan hangisinin aktif (kullanimda) oldugunu, gecmiste EN SON hangisinin 'dolu_esigi' Bar'a ulastigina bakarak belirler. Boylece vana ic kacagi yuzunden iki peronun da benzer degerler gostermesi durumunda bile dogru peronu ayirt eder. Aktif peronun tuketim hizini hesaplayip 'bosaltma_esigi'ne ne zaman inecegini tahmin eder, periyodik olarak bildirir. Peron degistiginde otomatik olarak yenisini takip etmeye baslar.",
+      "aciklama": "Yenipazar dorse takibi",
+      "istasyon": "GEPA 04 BİLECİK YENİPAZAR AKSA CITY GAS",
+      "peronlar": [
+        "1.Dorse Basınç",
+        "2.Dorse Basınç"
+      ],
+      "dolu_esigi": 200,
+      "bosaltma_esigi": 20,
+      "bildirim_araligi_dakika": 60,
+      "min_veri_saat": 1,
+      "aktif": true
+    },
+     {
+      "_aciklama_ozellik": "Bir istasyonun birden fazla dorse peronu arasindan hangisinin aktif (kullanimda) oldugunu, gecmiste EN SON hangisinin 'dolu_esigi' Bar'a ulastigina bakarak belirler. Boylece vana ic kacagi yuzunden iki peronun da benzer degerler gostermesi durumunda bile dogru peronu ayirt eder. Aktif peronun tuketim hizini hesaplayip 'bosaltma_esigi'ne ne zaman inecegini tahmin eder, periyodik olarak bildirir. Peron degistiginde otomatik olarak yenisini takip etmeye baslar.",
+      "aciklama": "Gölkent dorse takibi",
+      "istasyon": "GEPA 05 GÖLKENT SAKARYA AGDAŞ CITY GAS",
+      "peronlar": [
+        "1.Dorse Basınç",
+        "2.Dorse Basınç",
+        "3.Dorse Basınç"
+      ],
+      "dolu_esigi": 200,
+      "bosaltma_esigi": 20,
+      "bildirim_araligi_dakika": 60,
+      "min_veri_saat": 1,
+      "aktif": true
+    },
+     {
+      "_aciklama_ozellik": "Bir istasyonun birden fazla dorse peronu arasindan hangisinin aktif (kullanimda) oldugunu, gecmiste EN SON hangisinin 'dolu_esigi' Bar'a ulastigina bakarak belirler. Boylece vana ic kacagi yuzunden iki peronun da benzer degerler gostermesi durumunda bile dogru peronu ayirt eder. Aktif peronun tuketim hizini hesaplayip 'bosaltma_esigi'ne ne zaman inecegini tahmin eder, periyodik olarak bildirir. Peron degistiginde otomatik olarak yenisini takip etmeye baslar.",
+      "aciklama": "Limandere dorse takibi",
+      "istasyon": "GEPA 06 LİMANDERE SAKARYA AGDAS CITY GAS",
+      "peronlar": [
+        "1.Dorse Basınç",
+        "2.Dorse Basınç",
+        "3.Dorse Basınç"
+      ],
+      "dolu_esigi": 200,
       "bosaltma_esigi": 20,
       "bildirim_araligi_dakika": 60,
       "min_veri_saat": 1,
