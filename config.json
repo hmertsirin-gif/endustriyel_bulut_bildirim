@@ -2,9 +2,9 @@
   "_bilgi": "Bu surum GitHub Actions icindir. site.* ve telegram.* alanlari BILEREK bos birakildi - bu bilgiler GitHub repo Settings > Secrets uzerinden environment variable olarak enjekte ediliyor, koda hic yazilmiyor. Sadece esik_kurallari ve rejim_izleme kisimlarini duzenleyebilirsin.",
   "site": {
     "base_url": "https://panel.endustriyelbulut.com",
-    "company_id": "sarpcng",
-    "email": "mertsirin@sarpcng.com.tr",
-    "password": "Ms123456",
+    "company_id": "",
+    "email": "",
+    "password": "",
     "session_cookie": ""
   },
   "telegram": {
@@ -14,6 +14,11 @@
   "polling_interval_seconds": 60,
   "database_path": "history.db",
   "log_path": "monitor.log",
+  "heartbeat": {
+    "_aciklama": "Alarm olsun olmasin, her interval_dakika bir 'sistem calisiyor' mesaji gonderir. Boylece sessizligin 'her sey normal' mi yoksa 'sistem durmus' mu oldugunu ayirt edebilirsin.",
+    "aktif": true,
+    "interval_dakika": 60
+  },
   "_kural_aciklamasi": "Her kural bir istasyon+parametre kombinasyonuna uygulanır. 'istasyon' alanını bos ('') birakirsan kural TUM istasyonlara uygulanir. 'parametre' alani JSON'daki 'isim' alaniyla BIREBIR ayni olmali (buyuk/kucuk harf onemli degil).",
   "esik_kurallari": [
     {
@@ -31,8 +36,7 @@
       "kosul": "altinda",
       "deger": 4.75,
       "aktif": true
-    },    
-   
+    },
     {
       "aciklama": "1. Hat Basıncı çok düşük",
       "istasyon": "GEPA 04 BİLECİK YENİPAZAR AKSA CITY GAS",
@@ -40,7 +44,7 @@
       "kosul": "altinda",
       "deger": 7.75,
       "aktif": true
-    }, 
+    },
     {
       "aciklama": "2. Hat Basıncı çok düşük",
       "istasyon": "GEPA 02 TARAKLI CİTY GAZ",
@@ -56,7 +60,7 @@
       "kosul": "altinda",
       "deger": -15,
       "aktif": true
-    }, 
+    },
     {
       "aciklama": "1. Hat Gaz Sıcaklığı çok düşük",
       "istasyon": "GEPA 03 BİLECİK İNHİSAR AKSA CITY GAS",
@@ -64,7 +68,7 @@
       "kosul": "altinda",
       "deger": -15,
       "aktif": true
-    }, 
+    },
     {
       "aciklama": "1. Hat Gaz Sıcaklığı çok düşük",
       "istasyon": "GEPA 04 BİLECİK YENİPAZAR AKSA CITY GAS",
@@ -81,7 +85,7 @@
       "deger": 40,
       "aktif": true
     },
-     {
+    {
       "aciklama": "Kazan Sıcaklığı çok düşük",
       "istasyon": "GEPA 02 TARAKLI CİTY GAZ",
       "parametre": "Kazan Sıcaklık",
@@ -89,7 +93,7 @@
       "deger": 40,
       "aktif": true
     },
-     {
+    {
       "aciklama": "Gaz Sıcaklığı çok düşük",
       "istasyon": "GEPA 05 GÖLKENT SAKARYA AGDAŞ CITY GAS",
       "parametre": "Gaz Sıcaklık",
@@ -97,7 +101,7 @@
       "deger": -15,
       "aktif": true
     },
-     {
+    {
       "aciklama": "Gaz Sıcaklığı çok düşük",
       "istasyon": "GEPA 06 LİMANDERE SAKARYA AGDAS CITY GAS",
       "parametre": "Gaz Sıcaklık",
@@ -105,7 +109,7 @@
       "deger": -15,
       "aktif": true
     },
-     {
+    {
       "aciklama": "Kazan Sıcaklığı çok düşük",
       "istasyon": "GEPA 03 BİLECİK İNHİSAR AKSA CITY GAS",
       "parametre": "Kazan Sıcaklık",
@@ -113,7 +117,7 @@
       "deger": 40,
       "aktif": true
     },
-     {
+    {
       "aciklama": "Kazan Sıcaklığı çok düşük",
       "istasyon": "GEPA 04 BİLECİK YENİPAZAR AKSA CITY GAS",
       "parametre": "Kazan Sıcaklık",
@@ -134,25 +138,21 @@
   "rejim_izleme": [
     {
       "aciklama": "1. Dorse Basınç rejim değişimi",
-  "istasyon": "",
-  "parametre": "1.Dorse Basınç",
-  "karsilastirma_saat_sayisi": 3,
-  "carpan_esigi": 2.5,
-  "minimum_mutlak_fark": 10,
-  "birim": "bar/saat",
-  "mesaj_sablonu": "Son {saat} saattir ortalama {gecmis_rejim} {birim} rejim izlenirken, şu anki rejim {guncel_rejim} {birim} seviyesine ulaştı.",
-  "aktif": true
+      "istasyon": "",
+      "parametre": "1.Dorse Basınç",
+      "karsilastirma_saat_sayisi": 3,
+      "carpan_esigi": 2.5,
+      "minimum_mutlak_fark": 10,
+      "aktif": true
     },
     {
       "aciklama": "2. Dorse Basınç rejim değişimi",
-  "istasyon": "",
-  "parametre": "2.Dorse Basınç",
-  "karsilastirma_saat_sayisi": 3,
-  "carpan_esigi": 2.5,
-  "minimum_mutlak_fark": 10,
-  "birim": "bar/saat",
-  "mesaj_sablonu": "Son {saat} saattir ortalama {gecmis_rejim} {birim} rejim izlenirken, şu anki rejim {guncel_rejim} {birim} seviyesine ulaştı.",
-  "aktif": true
+      "istasyon": "",
+      "parametre": "2.Dorse Basınç",
+      "karsilastirma_saat_sayisi": 3,
+      "carpan_esigi": 2.5,
+      "minimum_mutlak_fark": 10,
+      "aktif": true
     }
   ]
 }
