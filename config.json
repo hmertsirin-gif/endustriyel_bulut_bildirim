@@ -17,7 +17,7 @@
   "heartbeat": {
     "_aciklama": "Alarm olsun olmasin, her interval_dakika bir 'sistem calisiyor' mesaji gonderir. Boylece sessizligin 'her sey normal' mi yoksa 'sistem durmus' mu oldugunu ayirt edebilirsin.",
     "aktif": true,
-    "interval_dakika": 1
+    "interval_dakika": 60
   },
   "_kural_aciklamasi": "Her kural bir istasyon+parametre kombinasyonuna uygulanır. 'istasyon' alanını bos ('') birakirsan kural TUM istasyonlara uygulanir. 'parametre' alani JSON'daki 'isim' alaniyla BIREBIR ayni olmali (buyuk/kucuk harf onemli degil).",
   "esik_kurallari": [
@@ -82,7 +82,7 @@
       "istasyon": "GEPA 01 KARAÇAM CİTY GAZ",
       "parametre": "Kazan Sıcaklık",
       "kosul": "altinda",
-      "deger": 40,
+      "deger": 35,
       "aktif": true
     },
     {
@@ -90,7 +90,7 @@
       "istasyon": "GEPA 02 TARAKLI CİTY GAZ",
       "parametre": "Kazan Sıcaklık",
       "kosul": "altinda",
-      "deger": 40,
+      "deger": 35,
       "aktif": true
     },
     {
@@ -114,7 +114,7 @@
       "istasyon": "GEPA 03 BİLECİK İNHİSAR AKSA CITY GAS",
       "parametre": "Kazan Sıcaklık",
       "kosul": "altinda",
-      "deger": 40,
+      "deger": 35,
       "aktif": true
     },
     {
@@ -122,7 +122,7 @@
       "istasyon": "GEPA 04 BİLECİK YENİPAZAR AKSA CITY GAS",
       "parametre": "Kazan Sıcaklık",
       "kosul": "altinda",
-      "deger": 40,
+      "deger": 35,
       "aktif": true
     },
     {
@@ -152,6 +152,22 @@
       "karsilastirma_saat_sayisi": 3,
       "carpan_esigi": 2.5,
       "minimum_mutlak_fark": 10,
+      "aktif": true
+    }
+  ],
+  "dorse_takip": [
+    {
+      "_aciklama_ozellik": "Bir istasyonun birden fazla dorse peronu arasindan hangisinin aktif (kullanimda) oldugunu, gecmiste EN SON hangisinin 'dolu_esigi' Bar'a ulastigina bakarak belirler. Boylece vana ic kacagi yuzunden iki peronun da benzer degerler gostermesi durumunda bile dogru peronu ayirt eder. Aktif peronun tuketim hizini hesaplayip 'bosaltma_esigi'ne ne zaman inecegini tahmin eder, periyodik olarak bildirir. Peron degistiginde otomatik olarak yenisini takip etmeye baslar.",
+      "aciklama": "Karaçam dorse takibi",
+      "istasyon": "GEPA 01 KARAÇAM CİTY GAZ",
+      "peronlar": [
+        "1.Dorse Basınç",
+        "2.Dorse Basınç"
+      ],
+      "dolu_esigi": 49,50,
+      "bosaltma_esigi": 20,
+      "bildirim_araligi_dakika": 1,
+      "min_veri_saat": 1,
       "aktif": true
     }
   ]
