@@ -26,7 +26,7 @@
       "istasyon": "GEPA 01 KARAÇAM CİTY GAZ",
       "parametre": "1.Hat Basınç",
       "kosul": "altinda",
-      "deger": 4.75,
+      "deger": 7.75,
       "aktif": true
     },
     {
@@ -50,7 +50,7 @@
       "istasyon": "GEPA 02 TARAKLI CİTY GAZ",
       "parametre": "2.Hat Basınç",
       "kosul": "altinda",
-      "deger": 4.75,
+      "deger": 7.75,
       "aktif": true
     },
     {
@@ -130,7 +130,7 @@
       "istasyon": "GEPA 02 TARAKLI CİTY GAZ",
       "parametre": "2.Hat Gaz Sıcaklık",
       "kosul": "altinda",
-      "deger": -15,
+      "deger": 80,
       "aktif": true
     }
   ],
