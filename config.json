@@ -134,28 +134,7 @@
       "aktif": true
     }
   ],
-  "_rejim_aciklamasi": "Dorse basinci gibi parametrelerde saatlik degisim miktarini izler. Son N saatin ortalama saatlik degisimiyle, en son saatteki degisimi karsilastirir. Fark carpani asarsa (veya mutlak bar farki asarsa) alarm verir.",
-  "rejim_izleme": [
-    {
-      "aciklama": "1. Dorse Basınç rejim değişimi",
-      "istasyon": "",
-      "parametre": "1.Dorse Basınç",
-      "karsilastirma_saat_sayisi": 3,
-      "carpan_esigi": 2.5,
-      "minimum_mutlak_fark": 10,
-      "aktif": true
-    },
-    {
-      "aciklama": "2. Dorse Basınç rejim değişimi",
-      "istasyon": "",
-      "parametre": "2.Dorse Basınç",
-      "karsilastirma_saat_sayisi": 3,
-      "carpan_esigi": 2.5,
-      "minimum_mutlak_fark": 10,
-      "aktif": true
-    }
-  ],
-  "dorse_takip": [
+   "dorse_takip": [
     {
       "_aciklama_ozellik": "Bir istasyonun birden fazla dorse peronu arasindan hangisinin aktif (kullanimda) oldugunu, gecmiste EN SON hangisinin 'dolu_esigi' Bar'a ulastigina bakarak belirler. Boylece vana ic kacagi yuzunden iki peronun da benzer degerler gostermesi durumunda bile dogru peronu ayirt eder. Aktif peronun tuketim hizini hesaplayip 'bosaltma_esigi'ne ne zaman inecegini tahmin eder, periyodik olarak bildirir. Peron degistiginde otomatik olarak yenisini takip etmeye baslar.",
       "aciklama": "Karaçam dorse takibi",
