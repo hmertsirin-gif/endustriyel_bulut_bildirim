@@ -143,7 +143,7 @@
         "1.Dorse Basınç",
         "2.Dorse Basınç"
       ],
-      "dolu_esigi": 150,
+      "dolu_esigi": 220,
       "bosaltma_esigi": 20,
       "bildirim_araligi_dakika": 180,
       "min_veri_saat": 1,
@@ -157,7 +157,7 @@
         "1.Dorse Basınç",
         "2.Dorse Basınç"
       ],
-      "dolu_esigi": 150,
+      "dolu_esigi": 220,
       "bosaltma_esigi": 20,
       "bildirim_araligi_dakika": 180,
       "min_veri_saat": 1,
@@ -171,7 +171,7 @@
         "1.Dorse Basınç",
         "2.Dorse Basınç"
       ],
-      "dolu_esigi": 150,
+      "dolu_esigi": 220,
       "bosaltma_esigi": 20,
       "bildirim_araligi_dakika": 180,
       "min_veri_saat": 1,
@@ -185,7 +185,7 @@
         "1.Dorse Basınç",
         "2.Dorse Basınç"
       ],
-      "dolu_esigi": 150,
+      "dolu_esigi": 220,
       "bosaltma_esigi": 20,
       "bildirim_araligi_dakika": 180,
       "min_veri_saat": 1,
@@ -200,7 +200,7 @@
         "2.Dorse Basınç",
         "3.Dorse Basınç"
       ],
-      "dolu_esigi": 150,
+      "dolu_esigi": 220,
       "bosaltma_esigi": 20,
       "bildirim_araligi_dakika": 180,
       "min_veri_saat": 1,
@@ -215,7 +215,7 @@
         "2.Dorse Basınç",
         "3.Dorse Basınç"
       ],
-      "dolu_esigi": 150,
+      "dolu_esigi": 220,
       "bosaltma_esigi": 20,
       "bildirim_araligi_dakika": 180,
       "min_veri_saat": 1,
