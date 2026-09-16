@@ -1,0 +1,62 @@
+name: Telegram Komut Dinleyici
+
+on:
+  schedule:
+    # Her 5 dakikada bir, sadece Telegram'da yeni bir /kontrol komutu var mi
+    # diye BAKAR - komut yoksa siteye hic girmez, cok hafif ve hizli calisir.
+    - cron: "*/5 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  komut_kontrol:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodu al
+        uses: actions/checkout@v4
+
+      - name: Python kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Kutuphaneleri kur
+        run: pip install -r requirements.txt
+
+      - name: Onceki calismalardan biriken veriyi OKU (SADECE OKU, geri yazma)
+        uses: actions/cache/restore@v4
+        with:
+          # BILEREK sadece 'restore' (okuma) alt-eylemini kullaniyoruz, tam
+          # 'actions/cache' degil - o otomatik olarak is bitince GERI DE
+          # YAZAR. Bu gorev (komut dinleyici) 5 dk'da bir, saatlik ana
+          # kontrol gorevi ile CAKISABILECEK sekilde calistigi icin, ikisi
+          # ayni 'panel-durumu-' onbellegine YAZMAYA calisirsa birbirlerinin
+          # verisini EZME riski var (bir istasyonun gecmisinin bir anda
+          # kaybolmus gibi gorunmesi gibi sorunlara yol acar). Bu yuzden bu
+          # gorev history.db'yi SADECE OKUR, hic geri kaydetmez - yazma
+          # islemi TAMAMEN saatlik ana kontrol gorevine (Panel Izleyici) ait.
+          path: |
+            history.db
+            monitor.log
+          key: panel-durumu-${{ github.run_id }}
+          restore-keys: |
+            panel-durumu-
+
+      - name: Telegram komut takibini geri yukle
+        uses: actions/cache@v4
+        with:
+          # Bu dosya SADECE bu gorev tarafindan kullanilir, baska hic kimse
+          # dokunmaz - o yuzden burada normal (oku+yaz) cache guvenli.
+          path: telegram_state.json
+          key: telegram-durum-${{ github.run_id }}
+          restore-keys: |
+            telegram-durum-
+
+      - name: Telegram komutunu kontrol et
+        env:
+          SITE_COMPANY_ID: ${{ secrets.SITE_COMPANY_ID }}
+          SITE_EMAIL: ${{ secrets.SITE_EMAIL }}
+          SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
+          SITE_SESSION_COOKIE: ${{ secrets.SITE_SESSION_COOKIE }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python monitor.py --check-commands
